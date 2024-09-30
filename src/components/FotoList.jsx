@@ -1,8 +1,15 @@
 import React from 'react'
+import Foto from './Foto'
 
-const FotoList = () => {
+const FotoList = ({fotos}) => {
   return (
-    <div>FotoList</div>
+    <div className="album">
+        {
+            fotos.map((foto) => (
+                <Foto key={foto.id} dados={foto}/>   
+            ))
+        }
+    </div>
   )
 }
 

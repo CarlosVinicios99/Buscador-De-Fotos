@@ -1,6 +1,7 @@
 import FotoAmpliada from './components/FotoAmpliada'
 import FotoList from './components/FotoList'
 import Searchbar from './components/Searchbar'
+import axios from 'axios'
 
 import './App.css'
 
@@ -12,28 +13,32 @@ function App() {
 
   const [query, setQuery] = useState("")
   const [category, setCategory] = useState("")
+  const [fotos, setFotos] = useState([])
 
   const fetchData = async ({query, category}) => {
 
     const apiKey = import.meta.env.VITE_UNSPLASH_API_KEY
 
-    const response = await axios.get(`https://api.unsplash.com/search/photos`, {
+    const response = await axios.get(`https://api.unsplash.com/photos/random`, {
       params: {
-        client_id: apiKey
+        client_id: apiKey,
+        count: 10
       }
     })
+
+    setFotos(response.data)
 
     console.log(response)
   }
 
   useEffect(() => {
-    fetchData()
+    fetchData(query, category)
   }, [])
 
   return (
     <div className="container">
       <Searchbar/>
-      <FotoList/>
+      <FotoList fotos={fotos}/>
       <FotoAmpliada/>
     </div>
   )
